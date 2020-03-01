@@ -1,4 +1,4 @@
-/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2017 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@ limitations under the License.
 package org.tensorflow.lite.examples.classification.tflite;
 
 import android.app.Activity;
-import java.io.IOException;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
+
 import org.tensorflow.lite.support.common.TensorOperator;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
 
-/** This TensorFlowLite classifier works with the float MobileNet model. */
-public class ClassifierFloatMobileNet extends Classifier {
+import java.io.IOException;
 
-  /** Float MobileNet requires additional normalization of the used input. */
+/** This TensorFlowLite classifier works with the float model, quantized weights and float inputs and outputs. */
+public class ClassifierWeightsQuantized extends Classifier {
+
+  /** Float model requires additional normalization of the used input. */
   private static final float IMAGE_MEAN = 127.5f;
 
   private static final float IMAGE_STD = 127.5f;
@@ -38,23 +39,19 @@ public class ClassifierFloatMobileNet extends Classifier {
   private static final float PROBABILITY_STD = 1.0f;
 
   /**
-   * Initializes a {@code ClassifierFloatMobileNet}.
+   * Initializes a {@code ClassifierQuantizedMobileNet}.
    *
    * @param activity
    */
-  public ClassifierFloatMobileNet(Activity activity, Device device, int numThreads)
+  public ClassifierWeightsQuantized(Activity activity, ModelName name, Device device, int numThreads)
       throws IOException {
-    super(activity, device, numThreads);
+    super(activity, name, device, numThreads);
   }
 
   @Override
   protected String getModelPath() {
-    // you can download this file from
-    // see build.gradle for where to obtain this file. It should be auto
-    // downloaded into assets.
-    return "mobilenet_v1_1.0_224.tflite";
+    return this.modelName.toString().toLowerCase()+ "_weights-quant.tflite";
   }
-
   @Override
   protected String getLabelPath() {
     return "labels.txt";

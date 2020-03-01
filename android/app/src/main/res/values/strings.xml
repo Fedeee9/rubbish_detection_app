@@ -1,21 +1,23 @@
 <resources>
-    <string name="tfe_ic_app_name" translation_description="Image Classification demo app [CHAR_LIMIT=40]">TFL Classify</string>
+    <string name="tfe_ic_app_name" translation_description="Image Classification demo app [CHAR_LIMIT=40]">Rubbish Detector</string>
     <string name="tfe_ic_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
+
     <string name="tfe_ic_name" translatable="false">Model Name:</string>
     <string-array name="tfe_ic_names" translatable="false">
-        <item>InceptionV3</item>
         <item>MobileNetV2</item>
-        <item>NASNetMobile</item>
+        <item>InceptionV3</item>
         <item>ResNet50</item>
+        <item>NASNetMobile</item>
         <item>VGG16</item>
     </string-array>
 
     <string name="tfe_ic_model" translatable="false">Model:</string>
     <string-array name="tfe_ic_models" translatable="false">
-        <item>Quantized</item>
-        <item>Weights_Quantized</item>
-        <item>Float</item>
         <item>Normal</item>
+        <item>Float16</item>
+        <item>Weights_Quantized</item>
+        <item>Quantized</item>
+        <item>Full_Quantized</item>
     </string-array>
 
     <string name="tfe_ic_device" translatable="false">Device:</string>

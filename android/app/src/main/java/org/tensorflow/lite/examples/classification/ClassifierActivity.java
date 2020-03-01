@@ -31,6 +31,7 @@ import org.tensorflow.lite.examples.classification.env.Logger;
 import org.tensorflow.lite.examples.classification.tflite.Classifier;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Model;
+import org.tensorflow.lite.examples.classification.tflite.Classifier.ModelName;
 
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
@@ -64,7 +65,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     borderedText = new BorderedText(textSizePx);
     borderedText.setTypeface(Typeface.MONOSPACE);
 
-    recreateClassifier(getModel(), getDevice(), getNumThreads());
+    recreateClassifier(getModel(), getName(), getDevice(), getNumThreads());
     if (classifier == null) {
       LOGGER.e("No classifier on preview!");
       return;
@@ -120,37 +121,46 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
       // Defer creation until we're getting camera frames.
       return;
     }
+    final ModelName name = getName();
     final Device device = getDevice();
     final Model model = getModel();
     final int numThreads = getNumThreads();
-    runInBackground(() -> recreateClassifier(model, device, numThreads));
+    runInBackground(() -> recreateClassifier(model, name, device, numThreads));
   }
 
-  private void recreateClassifier(Model model, Device device, int numThreads) {
+  private void recreateClassifier(Model model, ModelName name, Device device, int numThreads) {
     if (classifier != null) {
       LOGGER.d("Closing classifier.");
       classifier.close();
       classifier = null;
     }
-    if (device == Device.GPU && model == Model.QUANTIZED) {
+    if (device == Device.GPU && (model == Model.FULL_QUANTIZED || model == Model.WEIGHTS_QUANTIZED ||  model == Model.QUANTIZED)) {
       LOGGER.d("Not creating classifier: GPU doesn't support quantized models.");
       runOnUiThread(
           () -> {
-            Toast.makeText(this, "GPU does not yet supported quantized models.", Toast.LENGTH_LONG)
+            Toast.makeText(this, "GPU does not yet supported this models.", Toast.LENGTH_LONG)
                 .show();
           });
       return;
     }
     try {
       LOGGER.d(
-          "Creating classifier (model=%s, device=%s, numThreads=%d)", model, device, numThreads);
-      classifier = Classifier.create(this, model, device, numThreads);
+          "Creating classifier (name=%s, model=%s, device=%s, numThreads=%d)", name, model, device, numThreads);
+      classifier = Classifier.create(this, name, model, device, numThreads);
+
+      // Updates the input image size.
+      imageSizeX = classifier.getImageSizeX();
+      imageSizeY = classifier.getImageSizeY();
+
     } catch (IOException e) {
       LOGGER.e(e, "Failed to create classifier.");
+      runOnUiThread(
+              () -> {
+                Toast.makeText(this, "Failed to create classifier.", Toast.LENGTH_LONG)
+                        .show();
+              });
     }
 
-    // Updates the input image size.
-    imageSizeX = classifier.getImageSizeX();
-    imageSizeY = classifier.getImageSizeY();
+
   }
 }

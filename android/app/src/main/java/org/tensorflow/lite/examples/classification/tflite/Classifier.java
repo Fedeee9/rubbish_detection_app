@@ -20,6 +20,8 @@ import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.SystemClock;
 import android.os.Trace;
+import android.view.Display;
+
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ import java.util.PriorityQueue;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.examples.classification.env.Logger;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
 import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.nnapi.NnApiDelegate;
 import org.tensorflow.lite.support.common.FileUtil;
@@ -49,10 +50,26 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 public abstract class Classifier {
   private static final Logger LOGGER = new Logger();
 
+
+
+  /** The model name used for classification. */
+  public enum ModelName {
+    INCEPTIONV3,
+    MOBILENETV2,
+    NASNETMOBILE,
+    RESNET50,
+    VGG16
+  }
+
   /** The model type used for classification. */
   public enum Model {
-    FLOAT,
+    NORMAL,
     QUANTIZED,
+    WEIGHTS_QUANTIZED,
+    FULL_QUANTIZED,
+    FLOAT16
+
+
   }
 
   /** The runtime device type used for executing classification. */
@@ -61,6 +78,11 @@ public abstract class Classifier {
     NNAPI,
     GPU
   }
+
+
+
+  /** Name of the Tensorflow Lite model. */
+  protected ModelName modelName = null;
 
   /** Number of results to show in the UI. */
   private static final int MAX_RESULTS = 3;
@@ -107,12 +129,24 @@ public abstract class Classifier {
    * @param numThreads The number of threads to use for classification.
    * @return A classifier with the desired configuration.
    */
-  public static Classifier create(Activity activity, Model model, Device device, int numThreads)
+
+
+  public static Classifier create(Activity activity, ModelName name, Model model, Device device, int numThreads)
       throws IOException {
-    if (model == Model.QUANTIZED) {
-      return new ClassifierQuantizedMobileNet(activity, device, numThreads);
-    } else {
-      return new ClassifierFloatMobileNet(activity, device, numThreads);
+    if (model == Model.NORMAL) {
+      return new ClassifierNormal(activity, name, device, numThreads);
+    } else if (model == Model.FLOAT16) {
+      return new ClassifierFloat(activity, name, device, numThreads);
+    } else if (model == Model.QUANTIZED) {
+      return new ClassifierQuantized(activity, name, device, numThreads);
+    } else if (model == Model.WEIGHTS_QUANTIZED) {
+      return new ClassifierWeightsQuantized(activity, name, device, numThreads);
+    }
+    else if (model == Model.FULL_QUANTIZED) {
+      return new ClassifierFullQuantized(activity, name, device, numThreads);
+    }
+    else{
+      return null;
     }
   }
 
@@ -186,8 +220,10 @@ public abstract class Classifier {
     }
   }
 
+
   /** Initializes a {@code Classifier}. */
-  protected Classifier(Activity activity, Device device, int numThreads) throws IOException {
+  protected Classifier(Activity activity, ModelName name, Device device, int numThreads) throws IOException {
+    this.modelName = name;
     tfliteModel = FileUtil.loadMappedFile(activity, getModelPath());
     switch (device) {
       case NNAPI:
@@ -249,6 +285,7 @@ public abstract class Classifier {
     long endTimeForReference = SystemClock.uptimeMillis();
     Trace.endSection();
     LOGGER.v("Timecost to run model inference: " + (endTimeForReference - startTimeForReference));
+
 
     // Gets the map of label and probability.
     Map<String, Float> labeledProbability =

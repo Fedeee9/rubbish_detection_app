@@ -53,9 +53,11 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import org.tensorflow.lite.examples.classification.env.ImageUtils;
 import org.tensorflow.lite.examples.classification.env.Logger;
+import org.tensorflow.lite.examples.classification.tflite.Classifier;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Model;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Recognition;
+import org.tensorflow.lite.examples.classification.tflite.Classifier.ModelName;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -94,11 +96,13 @@ public abstract class CameraActivity extends AppCompatActivity
       inferenceTimeTextView;
   protected ImageView bottomSheetArrowImageView;
   private ImageView plusImageView, minusImageView;
+  private Spinner nameSpinner;
   private Spinner modelSpinner;
   private Spinner deviceSpinner;
   private TextView threadsTextView;
 
-  private Model model = Model.QUANTIZED;
+  private ModelName name = ModelName.MOBILENETV2;
+  private Model model = Model.NORMAL;
   private Device device = Device.CPU;
   private int numThreads = -1;
 
@@ -121,6 +125,7 @@ public abstract class CameraActivity extends AppCompatActivity
     minusImageView = findViewById(R.id.minus);
     modelSpinner = findViewById(R.id.model_spinner);
     deviceSpinner = findViewById(R.id.device_spinner);
+    nameSpinner = findViewById(R.id.name_spinner);
     bottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
     gestureLayout = findViewById(R.id.gesture_layout);
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
@@ -188,10 +193,12 @@ public abstract class CameraActivity extends AppCompatActivity
 
     modelSpinner.setOnItemSelectedListener(this);
     deviceSpinner.setOnItemSelectedListener(this);
+    nameSpinner.setOnItemSelectedListener(this);
 
     plusImageView.setOnClickListener(this);
     minusImageView.setOnClickListener(this);
 
+    name = ModelName.valueOf(nameSpinner.getSelectedItem().toString().toUpperCase());
     model = Model.valueOf(modelSpinner.getSelectedItem().toString().toUpperCase());
     device = Device.valueOf(deviceSpinner.getSelectedItem().toString());
     numThreads = Integer.parseInt(threadsTextView.getText().toString().trim());
@@ -568,6 +575,19 @@ public abstract class CameraActivity extends AppCompatActivity
     inferenceTimeTextView.setText(inferenceTime);
   }
 
+
+  protected ModelName getName() {
+    return name;
+  }
+
+  private void setName(ModelName name) {
+    if (this.name != name) {
+      LOGGER.d("Updating  name: " + name);
+      this.name = name;
+      onInferenceConfigurationChanged();
+    }
+  }
+
   protected Model getModel() {
     return model;
   }
@@ -579,6 +599,7 @@ public abstract class CameraActivity extends AppCompatActivity
       onInferenceConfigurationChanged();
     }
   }
+
 
   protected Device getDevice() {
     return device;
@@ -643,6 +664,8 @@ public abstract class CameraActivity extends AppCompatActivity
       setModel(Model.valueOf(parent.getItemAtPosition(pos).toString().toUpperCase()));
     } else if (parent == deviceSpinner) {
       setDevice(Device.valueOf(parent.getItemAtPosition(pos).toString()));
+    } else if (parent == nameSpinner) {
+      setName(ModelName.valueOf(parent.getItemAtPosition(pos).toString().toUpperCase()));
     }
   }
 
