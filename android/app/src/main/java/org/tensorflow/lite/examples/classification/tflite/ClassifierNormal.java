@@ -20,6 +20,7 @@ import android.app.Activity;
 import org.tensorflow.lite.support.common.TensorOperator;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
 
+import java.io.File;
 import java.io.IOException;
 
 /** This TensorFlowLite classifier works with the float model. */
@@ -50,7 +51,7 @@ public class ClassifierNormal extends Classifier {
 
   @Override
   protected String getModelPath() {
-    return this.modelName.toString().toLowerCase()+".tflite";
+    return "models_tflite" + File.separator +this.modelName.toString().toLowerCase()+".tflite";
 
   }
 

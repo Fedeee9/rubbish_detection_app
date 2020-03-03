@@ -153,10 +153,10 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
       imageSizeY = classifier.getImageSizeY();
 
     } catch (IOException e) {
-      LOGGER.e(e, "Failed to create classifier.");
+      LOGGER.e(e, "Failed to create classifier. Classifier does not yet supported.");
       runOnUiThread(
               () -> {
-                Toast.makeText(this, "Failed to create classifier.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Failed to create classifier. Classifier does not yet supported.", Toast.LENGTH_LONG)
                         .show();
               });
     }

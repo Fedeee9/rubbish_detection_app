@@ -20,6 +20,7 @@ import android.app.Activity;
 import org.tensorflow.lite.support.common.TensorOperator;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
 
+import java.io.File;
 import java.io.IOException;
 
 /** This TensorFlowLite classifier works with the float model, quantized weights and float inputs and outputs. */
@@ -50,7 +51,7 @@ public class ClassifierWeightsQuantized extends Classifier {
 
   @Override
   protected String getModelPath() {
-    return this.modelName.toString().toLowerCase()+ "_weights-quant.tflite";
+    return "models_tflite"+ File.separator + this.modelName.toString().toLowerCase()+ "_weights-quant.tflite";
   }
   @Override
   protected String getLabelPath() {

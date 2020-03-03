@@ -16,6 +16,8 @@ limitations under the License.
 package org.tensorflow.lite.examples.classification.tflite;
 
 import android.app.Activity;
+
+import java.io.File;
 import java.io.IOException;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
 import org.tensorflow.lite.support.common.TensorOperator;
@@ -50,7 +52,7 @@ public class ClassifierFloat extends Classifier {
   @Override
   protected String getModelPath() {
 
-    return this.modelName.toString().toLowerCase()+"_float16-quant.tflite";
+    return "models_tflite" + File.separator + this.modelName.toString().toLowerCase()+"_float16-quant.tflite";
   }
 
   @Override

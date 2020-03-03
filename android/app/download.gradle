@@ -1,0 +1,47 @@
+def targetFolder = "src/main/assets"
+def modelsDownloadUrl = "https://github.com/luca-ant/rubbish_detection/releases/download/models/models_tflite.tgz"
+def localCache = "build/intermediates/models_tflite.tgz"
+
+
+task downloadModels(type: DownloadUrlTask) {
+    doFirst {
+        println "Downloading ${modelsDownloadUrl}"
+    }
+    sourceUrl = "${modelsDownloadUrl}"
+    target = file("${localCache}")
+}
+
+task unzipModels(type: Copy, dependsOn: 'downloadModels') {
+    doFirst {
+        println "Unzipping ${localCache}"
+    }
+    from tarTree("${localCache}")
+    into "${targetFolder}"
+}
+
+
+
+task cleanUnusedFiles(type: Delete, dependsOn: ['unzipModels']) {
+    delete fileTree("${targetFolder}").matching {
+        include "*.pb"
+        include "*.ckpt.*"
+        include "*.pbtxt*"
+        include "*.quant_info.*"
+        include "*.meta"
+    }
+}
+
+class DownloadUrlTask extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+        ant.get(src: sourceUrl, dest: target)
+    }
+}
+
+preBuild.dependsOn unzipModels
