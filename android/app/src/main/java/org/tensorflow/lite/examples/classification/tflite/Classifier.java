@@ -57,8 +57,7 @@ public abstract class Classifier {
     INCEPTIONV3,
     MOBILENETV2,
     NASNETMOBILE,
-    RESNET50,
-    VGG16
+    RESNET50
   }
 
   /** The model type used for classification. */

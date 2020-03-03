@@ -8,7 +8,6 @@
         <item>InceptionV3</item>
         <item>ResNet50</item>
         <item>NASNetMobile</item>
-        <item>VGG16</item>
     </string-array>
 
     <string name="tfe_ic_model" translatable="false">Model:</string>
