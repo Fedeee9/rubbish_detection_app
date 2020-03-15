@@ -276,14 +276,6 @@ public abstract class Classifier {
     long endTimeForLoadImage = SystemClock.uptimeMillis();
     Trace.endSection();
     LOGGER.v("Timecost to load the image: " + (endTimeForLoadImage - startTimeForLoadImage));
-//
-//    double max = Double.MIN_VALUE;
-//    double min = Double.MAX_VALUE;
-//    for(int i=0; i<inputImageBuffer.getBuffer().array().length; i++){
-//      max = Math.max( inputImageBuffer.getBuffer().array()[i], max);
-//      min = Math.min(inputImageBuffer.getBuffer().array()[i], min);
-//    }
-//    System.out.println("MIN: "+(Double) min+" MAX:" + (Double) max);
 
     // Runs the inference call.
     Trace.beginSection("runInference");

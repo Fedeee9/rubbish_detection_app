@@ -27,7 +27,7 @@ import org.tensorflow.lite.support.common.ops.NormalizeOp;
 public class ClassifierFloat extends Classifier {
 
   /** Float model requires additional normalization of the used input. */
-  private static final float IMAGE_MEAN = 127.5f;
+  private static final float IMAGE_MEAN = 0.0f;
 
   private static final float IMAGE_STD = 255.0f;
 
