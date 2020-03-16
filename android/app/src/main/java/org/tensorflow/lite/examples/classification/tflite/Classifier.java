@@ -65,7 +65,6 @@ public abstract class Classifier {
     NORMAL,
     QUANTIZED,
     WEIGHTS_QUANTIZED,
-    FULL_QUANTIZED,
     FLOAT16
 
 
@@ -140,9 +139,6 @@ public abstract class Classifier {
       return new ClassifierQuantized(activity, name, device, numThreads);
     } else if (model == Model.WEIGHTS_QUANTIZED) {
       return new ClassifierWeightsQuantized(activity, name, device, numThreads);
-    }
-    else if (model == Model.FULL_QUANTIZED) {
-      return new ClassifierFullQuantized(activity, name, device, numThreads);
     }
     else{
       return null;

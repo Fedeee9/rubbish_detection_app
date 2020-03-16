@@ -26,18 +26,18 @@ import org.tensorflow.lite.support.common.ops.NormalizeOp;
 /** This TensorFlowLite classifier works with the quantized model and float inputs and outputs. */
 public class ClassifierQuantized extends Classifier {
 
-  /** Float requires additional normalization of the used input. */
+  /**
+   * The quantized model does not require normalization, thus set mean as 0.0f, and std as 1.0f to
+   * bypass the normalization.
+   */
   private static final float IMAGE_MEAN = 0.0f;
 
-  private static final float IMAGE_STD = 255.0f;
+  private static final float IMAGE_STD = 1.0f;
 
-  /**
-   * Float model does not need dequantization in the post-processing. Setting mean and std as 0.0f
-   * and 1.0f, repectively, to bypass the normalization.
-   */
+  /** Quantized model requires additional dequantization to the output probability. */
   private static final float PROBABILITY_MEAN = 0.0f;
 
-  private static final float PROBABILITY_STD = 1.0f;
+  private static final float PROBABILITY_STD = 255.0f;
 
   /**
    * Initializes a {@code ClassifierQuantizedMobileNet}.

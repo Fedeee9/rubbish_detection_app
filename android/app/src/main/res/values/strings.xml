@@ -16,7 +16,6 @@
         <item>Float16</item>
         <item>Weights_Quantized</item>
         <item>Quantized</item>
-        <item>Full_Quantized</item>
     </string-array>
 
     <string name="tfe_ic_device" translatable="false">Device:</string>
