@@ -1,5 +1,5 @@
 def targetFolder = "src/main/assets"
-def modelsDownloadUrl = "https://github.com/luca-ant/rubbish_detection/releases/download/models_tflite/models_tflite.tgz"
+def modelsDownloadUrl = "https://github.com/Fedeee9/rubbish_detection_app/releases/download/models_tflite/models_tflite.tgz"
 def localCache = "build/intermediates/models_tflite.tgz"
 
 

@@ -56,15 +56,13 @@ public abstract class Classifier {
   public enum ModelName {
     INCEPTIONV3,
     MOBILENETV2,
-    NASNETMOBILE,
-    RESNET50
+    NASNETMOBILE
   }
 
   /** The model type used for classification. */
   public enum Model {
     NORMAL,
     QUANTIZED,
-    WEIGHTS_QUANTIZED,
     FLOAT16
 
 
@@ -137,8 +135,6 @@ public abstract class Classifier {
       return new ClassifierFloat(activity, name, device, numThreads);
     } else if (model == Model.QUANTIZED) {
       return new ClassifierQuantized(activity, name, device, numThreads);
-    } else if (model == Model.WEIGHTS_QUANTIZED) {
-      return new ClassifierWeightsQuantized(activity, name, device, numThreads);
     }
     else{
       return null;

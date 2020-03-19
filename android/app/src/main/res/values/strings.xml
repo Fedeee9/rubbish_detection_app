@@ -6,7 +6,6 @@
     <string-array name="tfe_ic_names" translatable="false">
         <item>MobileNetV2</item>
         <item>InceptionV3</item>
-        <item>ResNet50</item>
         <item>NASNetMobile</item>
     </string-array>
 
@@ -14,7 +13,6 @@
     <string-array name="tfe_ic_models" translatable="false">
         <item>Normal</item>
         <item>Float16</item>
-        <item>Weights_Quantized</item>
         <item>Quantized</item>
     </string-array>
 
