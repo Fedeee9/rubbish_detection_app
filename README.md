@@ -1,6 +1,6 @@
 # Rubbish detection on Andorid
 
-<img src="images/screen1.jpg?raw=true" style="width: 60%" />
+<img src="images/screen1.jpg?raw=true" style="width: 20%" />
 
 
 ## Overview
