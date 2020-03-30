@@ -96,7 +96,7 @@ the app the first time, the app will request permission to access the camera.
 ## Screenshots
 <img src="images/screen2.jpg?raw=true" align="left"  width=250px />
 <img src="images/screen3.jpg?raw=true" width=250px />
-<img src="images/screen4.jpg?raw=true" align="right" width=250px />
+<img src="images/screen4.jpg?raw=true" width=250px />
 
 # Contributors
 * Luca Antognetti
