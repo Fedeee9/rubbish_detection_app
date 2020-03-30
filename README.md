@@ -1,6 +1,6 @@
 # Rubbish detection on Andorid
 
-<img src="images/screen1.jpg?raw=true" style="width: 60%" />
+<img src="images/screen1.jpg?raw=true" width=250px />
 
 
 ## Overview
@@ -93,3 +93,11 @@ will be installed. This will install the app on the device.
 To test the app, open the app called `Rubbish Detector` on your device. When you run
 the app the first time, the app will request permission to access the camera.
 
+## Screenshots
+<img src="images/screen2.jpg?raw=true" align="left"  width=250px />
+<img src="images/screen3.jpg?raw=true" align="left" width=250px />
+<img src="images/screen4.jpg?raw=true" width=250px />
+
+# Contributors
+* Luca Antognetti
+* Federico Dal Monte
