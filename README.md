@@ -1,6 +1,8 @@
 # Rubbish detection on Andorid
 
-<img src="images/screen1.jpg?raw=true" width=250px />
+<img src="android/app/src/main/res/drawable-mdpi/logo.png?raw=true"  align="center" width=250px />
+
+<img src="images/screen1.jpg?raw=true" align="center"  width=250px />
 
 
 ## Overview
