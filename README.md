@@ -1,10 +1,14 @@
 # Rubbish detection on Andorid
 
-<img src="android/app/src/main/res/drawable-mdpi/logo.png?raw=true"  align="center" width=250px />
+<p align="center">
 
-<img src="images/screen1.jpg?raw=true" align="center"  width=250px />
+<img src="android/app/src/main/res/drawable-mdpi/logo.png?raw=true"  width=400px />
+</p>
+<p align="center">
 
+<img src="images/screen1.jpg?raw</p>=true" align="center"  width=250px />
 
+</p>
 ## Overview
 
 This is an application for TensorFlow Lite on Android. It uses Image classification to continuously classify whatever it sees from the device's back camera.
