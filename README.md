@@ -5,7 +5,7 @@
 This is an application for TensorFlow Lite on Android. It uses Image classification to continuously classify whatever it sees from the device's back camera.
 Inference is performed using the TensorFlow Lite Java API. The app
 classifies frames in real-time, displaying the top most probable
-classifications. It allows the user to choose between a different [optimized] (https://www.tensorflow.org/lite/performance/post_training_quantization) models (floating point or
+classifications. It allows the user to choose between a different [optimized](https://www.tensorflow.org/lite/performance/post_training_quantization) models (floating point or
 quantized) 
 model, select the thread count, and decide whether to run on CPU, GPU, or via
 [NNAPI](https://developer.android.com/ndk/guides/neuralnetworks).
